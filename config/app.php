@@ -163,6 +163,7 @@ return [
 	    //use for bbs
 	    Laracasts\Flash\FlashServiceProvider::class,
 	    Barryvdh\Debugbar\ServiceProvider::class,
+	    Maknz\Slack\SlackServiceProvider::class,
 
 
     ],
@@ -214,6 +215,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 	    'Flash' =>Laracasts\Flash\Flash::class,
+	    'Slack' =>Maknz\Slack\Facades\Slack::class,
 
     ],
 
