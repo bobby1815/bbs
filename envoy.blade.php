@@ -15,15 +15,14 @@
 #--------------------------------------------------------------------------
 ##
 
-@servers(['vm' => 'deployer@envoy.vm'])
+@servers(['bbs' => 'deployer'])
 
 
 @setup
   $username = 'deployer';                       // username at the server
-  $remote = 'https://github.com/appkr/envoy.git';
-  // $remote = 'git@github.com:appkr/envoy.git';   // github repository to clone
+  $remote = 'https://github.com/bobby1815/bbs.git';
   $base_dir = "/home/{$username}/www";          // document that holds projects
-  $project_root = "{$base_dir}/envoy.vm";       // project root
+  $project_root = "{$base_dir}/bbs";       // project root
   $shared_dir = "{$base_dir}/shared";           // directory that will house shared dir/files
   $release_dir = "{$base_dir}/releases";        // release directory
   $distname = 'release_' . date('YmdHis');      // release name
@@ -45,13 +44,13 @@
 @endsetup
 
 
-@task('hello', ['on' => ['vm']])
+@task('hello', ['on' => ['bbs']])
   HOSTNAME=$(hostname);
   echo "Hello Envoy! Responding from $HOSTNAME";
 @endtask
 
 
-@task('deploy', ['on' => ['vm']])
+@task('deploy', ['on' => ['bbs']])
   {{--Create directories if not exists--}}
   @foreach ($required_dirs as $dir)
     [ ! -d {{ $dir }} ] && mkdir -p {{ $dir }};
@@ -111,7 +110,7 @@
 @endtask
 
 
-@task('prune', ['on' => 'vm'])
+@task('prune', ['on' => 'bbs'])
   if [ ! -f {{ $base_dir }}/officer.php ]; then
     echo '"officer.php" script not found.';
     echo '\$ envoy run hire_officer';
@@ -126,14 +125,14 @@
 @endtask
 
 
-@task('hire_officer', ['on' => 'vm'])
+@task('hire_officer', ['on' => 'bbs'])
   {{--Download "officer.php" to the server--}}
   wget https://raw.githubusercontent.com/appkr/envoy/master/scripts/officer.php -O {{ $base_dir }}/officer.php;
   echo '"officer.php" is ready! Ready to roll master!';
 @endtask
 
 
-@task('list', ['on' => 'vm'])
+@task('list', ['on' => 'bbs'])
   {{--Show the list of release--}}
   if [ ! -f {{ $base_dir }}/officer.php ]; then
     echo '"officer.php" script not found.';
@@ -145,7 +144,7 @@
 @endtask
 
 
-@task('checkout', ['on' => 'vm'])
+@task('checkout', ['on' => 'bbs'])
   {{--checkout to the given release path--}}
   if [ ! -f {{ $base_dir }}/officer.php ]; then
     echo '"officer.php" script not found.';
